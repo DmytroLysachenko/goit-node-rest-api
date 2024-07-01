@@ -23,12 +23,8 @@ contactsRouter.get('/:id', getOneContact);
 
 contactsRouter.delete('/:id', deleteContact);
 
-contactsRouter.post('/', validateBody(createContactSchema));
+contactsRouter.post('/', validateBody(createContactSchema), createContact);
 
-contactsRouter.post('/', createContact);
-
-contactsRouter.put('/:id', validateBody(updateContactSchema));
-
-contactsRouter.put('/:id', updateContact);
+contactsRouter.put('/:id', validateBody(updateContactSchema), updateContact);
 
 export default contactsRouter;
