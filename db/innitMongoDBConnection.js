@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
+const { DB_HOST } = process.env;
+
 export const initMongoDBConnection = async () => {
   try {
-    const DB_HOST =
-      'mongodb+srv://dmytro:yUFYCOZrNUBjAMyj@cluster0.7avbtkp.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0';
     await mongoose.connect(DB_HOST);
     console.log('Database connection successful');
   } catch (error) {
