@@ -1,8 +1,4 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { faker } from '@faker-js/faker';
 import { Contact } from '../db/schemas/Contact.js';
-import exp from 'node:constants';
 
 export async function listContacts() {
   return Contact.find();

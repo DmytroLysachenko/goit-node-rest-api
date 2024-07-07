@@ -5,7 +5,6 @@ import {
   deleteContact,
   createContact,
   updateContact,
-  checkContactId,
   patchFavoriteContact,
 } from '../controllers/contactsControllers.js';
 import validateBody from '../helpers/validateBody.js';
