@@ -1,5 +1,6 @@
 import mongoose, { model } from 'mongoose';
 import { mongoSaveError, setMongoUpdateSettings } from './hooks.js';
+import { subscriptions } from '../../helpers/subscriptions.js';
 const { Schema } = mongoose;
 const userSchema = new Schema(
   {
@@ -14,7 +15,7 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: ['starter', 'pro', 'business'],
+      enum: subscriptions,
       default: 'starter',
     },
     token: {
