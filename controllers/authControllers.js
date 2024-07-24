@@ -1,9 +1,15 @@
 import bcrypt from 'bcrypt';
+import gravatar from 'gravatar';
+import fs from 'node:fs/promises';
 import jwt from 'jsonwebtoken';
 import HttpError from '../helpers/HttpError.js';
 import * as authServices from '../services/authServices.js';
 import { env } from '../helpers/env.js';
 import { subscriptions } from '../helpers/subscriptions.js';
+import Jimp from 'jimp';
+import path from 'node:path';
+
+const avatarsPath = path.resolve('public', 'avatars');
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -13,9 +19,13 @@ export const registerUser = async (req, res, next) => {
       throw HttpError(409, 'Email already in use');
     }
     const hashPassword = await bcrypt.hash(password, 10);
+
+    const avatarURL = gravatar.url(email, { size: '100' });
+
     const newUser = await authServices.registerUser({
       email,
       password: hashPassword,
+      avatarURL,
     });
     res.json({
       status: 201,
@@ -109,6 +119,28 @@ export const patchSubscriptionUser = async (req, res, next) => {
     res.status(200).json({
       email,
       subscription,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export const patchAvatarUser = async (req, res, next) => {
+  try {
+    const { path: oldPath, filename } = req.file;
+    const { id } = req.user;
+    const newPath = path.join(avatarsPath, filename);
+    console.log(newPath);
+    await fs.rename(oldPath, newPath);
+
+    await Jimp.read(newPath).then((img) => img.resize(250, 250));
+
+    const avatarURL = path.join('avatars', filename);
+    authServices.updateUser({ _id: id }, { avatarURL });
+
+    res.status(200).json({
+      avatarURL: `/avatars/${filename}`,
     });
   } catch (error) {
     console.error(error);
