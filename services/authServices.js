@@ -1,7 +1,18 @@
 import { User } from '../db/schemas/User.js';
 
-export async function registerUser({ email, password }) {
-  return User.create({ email, password, subscription: 'starter' });
+export async function registerUser({
+  email,
+  password,
+  verificationToken,
+  avatarURL,
+}) {
+  return User.create({
+    email,
+    password,
+    subscription: 'starter',
+    avatarURL,
+    verificationToken,
+  });
 }
 
 export async function findUser(filter) {

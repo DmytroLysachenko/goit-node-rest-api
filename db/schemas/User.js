@@ -1,6 +1,7 @@
 import mongoose, { model } from 'mongoose';
 import { mongoSaveError, setMongoUpdateSettings } from './hooks.js';
 import { subscriptions } from '../../helpers/subscriptions.js';
+
 const { Schema } = mongoose;
 const userSchema = new Schema(
   {
@@ -22,7 +23,15 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    avatarURL: { type: String },
+    avatarURL: { type: String, required: true },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
   },
   { versionKey: false, timestamps: true }
 );

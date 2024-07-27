@@ -18,3 +18,7 @@ export const logOutSchema = Joi.object().keys({
 export const updateUserSubscriptionSchema = Joi.object().keys({
   subscription: Joi.string().required(),
 });
+
+export const resendVerifyMessageSchema = Joi.object().keys({
+  email: Joi.string().required().email(),
+});
